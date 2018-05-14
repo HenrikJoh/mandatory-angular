@@ -1,9 +1,14 @@
 <div class="board">
 
   <!-- Add click event binding for this button... -->
-  <button style="margin: 20px 0">
+  <button style="margin: 20px 0" (click)="newTask()">
     New Task
   </button>
+  <div *ngIf="showForm === true">
+    <input type="text" name="title">
+    <input type="text" name="description">
+    <button (click)="saveTask()">Save</button>
+  </div>
 
   <div class="lists">
     <div *ngFor="let statusType of statuslist">
