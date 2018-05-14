@@ -13,9 +13,13 @@ export class TaskboardComponent {
   constructor() { }
 
   newTask() {
-    this.showForm = true;
+    console.log(this.showForm, "test");
+    this.showForm = !this.showForm;
   }
-  saveTask() {
+  close() {
+    console.log(this.showForm, "Close");
     this.showForm = false;
   }
+
+
 }
