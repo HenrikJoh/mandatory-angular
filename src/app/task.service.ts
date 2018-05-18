@@ -4,7 +4,8 @@ import { Task, StatusType } from './constants';
 import 'rxjs/add/observable/of';
 
 export class TaskService {
-  tasks: Task[];
+  taskList: Task[];
+  observer;
   // add class properties for:
   //
   // a task id counter
@@ -12,32 +13,55 @@ export class TaskService {
   // an instance of BehaviorSubject
 
   constructor() {
-    this.tasks = [{
-      id: 1,
+    const test = [{
+      id: 0,
       status: StatusType.NotStarted,
-      title: 'title',
-      description: 'desc'
+      title: 'Mocked not started',
+      description: 'Mocked description',
+    },
+    {
+      id: 1,
+      status: StatusType.Completed,
+      title: 'Mocked not started',
+      description: 'Mocked description',
+    },
+    {
+      id: 2,
+      status: StatusType.InProgress,
+      title: 'Mocked not started',
+      description: 'Mocked description',
     }
     ];
+    this.taskList = test;
   }
 
-  getTasks(status: StatusType): Observable<Task[]> {
-    // return an observable of a task array, filtered by the passed in status...¨
+  filterTasks(statusType: StatusType, taskList: Task[] = []): Task[] {
+    return taskList.filter((task) => {
+      return task.status === statusType;
+    });
+  }
 
-    return Observable.of(this.tasks);
+  getTasks(): Observable<Task[]> {
+    // return an observable of a task array, filtered by the passed in status...¨
+    return new Observable((observer) => {
+      this.observer = observer;
+      return this.observer.next(this.taskList);
+    });
   }
 
   updateTask(id: number, status: StatusType) {
     // complete the code to update a task's status...
+    this.taskList[id].status = status;
   }
 
   addTask(title: string, description: string) {
     // complete the code to add a task...
-    this.tasks.push({
-      id: this.tasks.length,
+    this.taskList.push({
+      id: this.taskList.length,
       status: StatusType.NotStarted,
       title: title,
       description: description,
-    })
+    });
+    return this.observer.next(this.taskList);
   }
 }

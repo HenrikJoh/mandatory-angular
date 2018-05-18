@@ -2,13 +2,19 @@
 <form style="margin-bottom: 10px">
 
     <!-- Apply ngModel to this input... -->
-    <input class="input" type="text" placeholder="title" />
+    <input class="input" type="text" name="title" [(ngModel)]="task.title" #titleInput="ngModel" minlength="3" required placeholder="title" />
     <!-- Markup for error messages... -->
-    <div class="error">
+    <div class="error" *ngIf="titleInput.invalid && (titleInput.dirty || titleInput.touched)">
+        <div *ngIf="titleInput.errors.required">
+            Name is required.
+        </div>
+        <div *ngIf="titleInput.errors.minlength">
+            Name must be at least 3 characters long.
+        </div>
     </div>
 
     <!-- Apply ngModel to this input... -->
-    <input class="input" type="text" placeholder="description" />
+    <input class="input" type="text" placeholder="description" [(ngModel)]="task.description" name="description" />
 
     <!-- Disable button if form is invalid. -->
     <button type="submit" (click)="saveTask()">

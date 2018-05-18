@@ -4,7 +4,7 @@
 </div>
 
 <!-- Markup for displaying all tasks that have the status type of this list set... -->
-<div *ngFor="let task of tasks">
-  <task [task]="task" (statusChanged)="handleStatusChanged($event)">
+<div *ngFor="let task of taskList">
+  <task [task]="task">
   </task>
 </div>

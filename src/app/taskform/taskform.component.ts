@@ -1,5 +1,7 @@
 import { Component, Input, Output } from '@angular/core';
 import { EventEmitter } from '@angular/core';
+import { Task, StatusType } from '../constants';
+
 
 @Component({
   selector: 'task-form',
@@ -7,13 +9,18 @@ import { EventEmitter } from '@angular/core';
   styleUrls: ['./taskform.component.css']
 })
 export class TaskformComponent {
-  showForm = false;
-  @Output() taskAdded = new EventEmitter<boolean>();
+  @Output() taskAdded = new EventEmitter<Task>();
+
   constructor() { }
+  task: Task = {
+    title: '',
+    description: '',
+    id: null,
+    status: StatusType.NotStarted
+  };
 
   saveTask() {
-    this.showForm = false;
-    this.taskAdded.emit(true);
-    console.log(this.showForm, "No");
+    this.taskAdded.emit(this.task);
+
   }
 }

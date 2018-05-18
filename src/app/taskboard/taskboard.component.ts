@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
-import { StatusType } from '../constants';
+import { StatusType, Task } from '../constants';
+import { TaskService } from '../task.service';
+
 
 @Component({
   selector: 'task-board',
@@ -8,18 +10,36 @@ import { StatusType } from '../constants';
 })
 export class TaskboardComponent {
 
+  taskList: Task[] = [];
+  statusTypes: StatusType[] = [
+    StatusType.NotStarted, StatusType.InProgress, StatusType.Completed
+  ];
   showForm = false;
+
   private statuslist = ['NotStarted', 'InProgress', 'Completed'];
-  constructor() { }
+  constructor(private taskService: TaskService) { }
+
+  ngOnInit() {
+    this.taskService.getTasks()
+      .subscribe((tasks) => {
+        this.taskList = tasks;
+      });
+  }
 
   newTask() {
-    console.log(this.showForm, "test");
     this.showForm = !this.showForm;
   }
-  close() {
-    console.log(this.showForm, "Close");
+
+  close(task) {
     this.showForm = false;
+    return this.taskService.addTask(task.title, task.description);
   }
 
+  filterTasks(statusType: StatusType, taskList: Task[]) {
+    return this.taskService.filterTasks(statusType, taskList);
+  }
+  addMockTask() {
+    return this.taskService.addTask('Mock task', 'mock description');
+  }
 
 }

@@ -7,9 +7,9 @@
   <task-form (taskAdded)="close($event)" *ngIf="showForm === true"></task-form>
 
   <div class="lists">
-    <div *ngFor="let statusType of statuslist">
-      <task-list [statusType]="statusType"></task-list>
-      <!-- Markup for task lists here... -->
-
+    <div *ngFor="let statusType of statusTypes">
+      <task-list [taskList]="filterTasks(statusType, taskList)" [statusType]="statusType">
+      </task-list>
     </div>
   </div>
+</div>
